@@ -3,6 +3,19 @@ local t = new("TextBox")
 local l = new("TextLabel")
 local b = new("TextButton")
 local k = new("TextBox")
+local blockWord = {
+    "porn",
+    "gay",
+    "fuck",
+    "xvideo", 
+    "shit",
+    "e926",
+    "e621",
+    "18+",
+    "nsfw",
+    "koliemini",
+    "robux"
+}
 local Http = GetService("HttpService")
 function HttpRequest(url, give_response)
     if string.find(url, "LimeOS-appstore-api", 1, true) then return "no." end
@@ -59,7 +72,8 @@ Title.TextColor3 = Color3.new(255,255,255)
  TextBox.AnchorPoint = Vector2.new(0.5,0.5)
  TextBox.Size = UDim2.new(1,0,0.1,0)
  TextBox.Position = UDim2.new(0.5,0,0.1,0)
- TextBox.Text =  decode["items"][1]["link"]
+ -- decode["items"][1]["link"]
+ TextBox.Text = "Disabled"
  TextBox.Parent = Window
  TextBox.TextScaled = true
  TextBox.ClearTextOnFocus = false
@@ -92,6 +106,16 @@ b.TextScaled = true
 b.TextColor3 = Color3.new(0,0,0)
 b.Activated:Connect(function()
 print("Connecting to Searchoo")
+print("Checking BlackList")
+for i,v in pairs(blockWord) do
+    if t.Text:lower():match(v) then
+           print("Error")
+           b.Text = "Filter Error."
+           wait(1)
+           b.Text = "Bing It" 
+           return
+    end
+end
 RequestSearch(t.Text)
 end)
 --[[API Key Selection]]--
