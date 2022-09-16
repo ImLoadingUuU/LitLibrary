@@ -64,7 +64,12 @@ local blockWord = {
     "r34",
     "bang",
     "r63",
-    "sex"
+    "sex",
+    "shock",
+    "liveleak",
+    "live leak",
+    "gore",
+    "busty"
 }
 
 function RequestSearch(args)
