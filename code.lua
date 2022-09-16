@@ -60,7 +60,11 @@ local blockWord = {
     "18+",
     "nsfw",
     "koliemini",
-    "robux"
+    "robux",
+    "r34",
+    "bang",
+    "r63",
+    "sex"
 }
 
 function RequestSearch(args)
