@@ -32,8 +32,8 @@ function HttpRequest(url, give_response)
     end
 end
 --
--- local updateres =  HttpRequest("https://raw.githubusercontent.com/ImLoadingUuU/LitLibrary/main/version.json")
-if 1 == 0 then
+ local updateres =  HttpRequest("https://raw.githubusercontent.com/ImLoadingUuU/LitLibrary/main/version.json")
+if updateres then
     print(updateres)
     local decoded = Http:JSONDecode(updateres)
     if not decoded["lahoo"] then
@@ -43,9 +43,9 @@ if 1 == 0 then
      end
     local v = decoded["lahoo"]["version"] 
     print("Fetched Version:" .. v)
-    if LitCFG < tonumber(v) then
+    if LitCFG.Version < tonumber(v) then
         print("New Update Avaliable")
-    elseif LitCFG == v then
+    elseif LitCFG.Version == v then
         print("Already lastest")
     end
 end
