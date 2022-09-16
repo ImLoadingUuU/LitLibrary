@@ -34,6 +34,7 @@ end
 --
 local updateres =  HttpRequest("https://raw.githubusercontent.com/ImLoadingUuU/LitLibrary/main/version.json")
 if updateres then
+    print(updateres)
     local decoded = Http:JSONDecode(updateres)
     if not decoded["lahoo"] then
         print("Failed to Check Update")
