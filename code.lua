@@ -3,19 +3,11 @@ local t = new("TextBox")
 local l = new("TextLabel")
 local b = new("TextButton")
 local k = new("TextBox")
-local blockWord = {
-    "porn",
-    "gay",
-    "fuck",
-    "xvideo", 
-    "shit",
-    "e926",
-    "e621",
-    "18+",
-    "nsfw",
-    "koliemini",
-    "robux"
+print("Checking for Update..")
+local LitCFG = {
+  Version = 1000
 }
+
 local Http = GetService("HttpService")
 function HttpRequest(url, give_response)
     if string.find(url, "LimeOS-appstore-api", 1, true) then return "no." end
@@ -39,6 +31,36 @@ function HttpRequest(url, give_response)
         return true
     end
 end
+--
+local updateres =  HttpRequest("https://github.com/ImLoadingUuU/LitLibrary/edit/main/version.json")
+if updateres then
+    local decoded = Http:JSONDecode(updateres)
+    if not decoded["lahoo"] then
+        print("Failed to Check Update")
+        return 
+        
+     end
+    local v = decoded["lahoo"]["version"]
+    if LitCFG < v then
+        print("New Update Avaliable")
+    elseif LitCFG == v then
+        print("Already lastest")
+    end
+end
+local blockWord = {
+    "porn",
+    "gay",
+    "fuck",
+    "xvideo", 
+    "shit",
+    "e926",
+    "e621",
+    "18+",
+    "nsfw",
+    "koliemini",
+    "robux"
+}
+
 function RequestSearch(args)
  local Window = createapp("Searchoo - New Search | " .. args .. " | Searchoo Season ID: " .. math.random(1,100000))
  local Title = new("TextLabel")
