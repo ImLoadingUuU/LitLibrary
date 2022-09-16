@@ -1,12 +1,9 @@
-local s = createapp("Searchoo V1")
 local t = new("TextBox")
 local l = new("TextLabel")
 local b = new("TextButton")
 local k = new("TextBox")
 print("Checking for Update..")
-local LitCFG = {
-  Version = 1000
-}
+local CurrentVersion = 1000
 
 local Http = GetService("HttpService")
 function HttpRequest(url, give_response)
@@ -43,12 +40,14 @@ if updateres then
      end
     local v = decoded["lahoo"]["version"] 
     print("Fetched Version:" .. v)
-    if LitCFG.Version < tonumber(v) then
+    if CurrentVersion < v then
         print("New Update Avaliable")
-    elseif LitCFG.Version == v then
+    elseif CurrentVersion == v then
         print("Already lastest")
     end
 end
+local s = createapp("Searchoo V1")
+
 local blockWord = {
     "porn",
     "gay",
