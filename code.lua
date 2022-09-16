@@ -32,7 +32,7 @@ function HttpRequest(url, give_response)
     end
 end
 --
-local updateres =  HttpRequest("https://github.com/ImLoadingUuU/LitLibrary/edit/main/version.json")
+local updateres =  HttpRequest("https://raw.githubusercontent.com/ImLoadingUuU/LitLibrary/main/version.json")
 if updateres then
     local decoded = Http:JSONDecode(updateres)
     if not decoded["lahoo"] then
