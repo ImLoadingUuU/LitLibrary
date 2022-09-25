@@ -11,6 +11,7 @@ local TweenService = GetService("TweenService")
 local TI = TweenInfo.new(2,Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
 local Textbox = new("TextBox",Lixby)
 local Textbutton = new("TextButton",Lixby)
+local sus = 0
 local shakeIntensity = 5
 -- give me credit or your liver
 function HttpRequest(url, give_response,returnObject)
@@ -31,10 +32,11 @@ function HttpRequest(url, give_response,returnObject)
                 return_data = data
             end)
         while wait() do if return_data then break end end
+        print("Done")
         if returnObject then
              return HttpService:JSONDecode(return_data)
         else 
-             return
+             return return_data
         end
     else
         return true
@@ -45,7 +47,22 @@ function updateTitle(text)
 Lixby.Parent.TextLabel.Text = text
 Lixby.Parent.TextLabel.Font = Enum.Font.SciFi
 end
+function iterPageItems(pages)
+    return coroutine.wrap(function()
+        local pagenum = 1
+        while true do
+            for _, item in ipairs(pages:GetCurrentPage()) do
+                coroutine.yield(item, pagenum)
+            end
+            if pages.IsFinished then
+                break
+            end
 
+            pages:AdvanceToNextPageAsync()
+            pagenum = pagenum + 1
+        end
+    end)
+end
 updateTitle("Lixby Furry Detector 8.1")
 -- Object Configuration
 Textbox.BackgroundTransparency = 1
@@ -89,13 +106,25 @@ coroutine.wrap(function()
 TweenService:Create(Textbutton,TI,{ ["Position"] = UDim2.new(0.5,0,2,0)}):Play()
 end)()
 local pid = Players:GetUserIdFromNameAsync(Textbox.Text)
-local Request = HttpRequest("https://friends.roblox.com/v1/users/" .. pid .. "/friends"
+print(pid)
+local fr = Players:GetFriendsAsync(pid)
 changeText("Preparing for Server..")
+if Textbox.Text:lower():find("furry") then
+ sus = sus + 1
+  updateTitle("Lixby Furry Detector 8.1 (Furrys:" .. sus .. ")")
+end
+
 wait(1)
 changeText("Checking Friends")
-for i = 1,#Request.data do
- wait(0.1)
- Textbox.Text = #Request.data[i].name
+
+for i,v in iterPageItems(fr) do
+   Textbox.Text = i.Username
+   if i.Username:lower():find("furry") then
+       sus = sus + 1
+       updateTitle("Lixby Furry Detector 8.1 (Furrys:" .. sus .. ")")
+   end
+   
+   wait(0.01)
 end
 changeText("UserID " .. pid)
 changeText("Checking Profile....")
@@ -104,8 +133,7 @@ changeText("Checking Games...")
 changeText("Checking Groups")
 changeText("Complete Captcha...")
 
-local msg = GetService("HttpServic"):UrlEncode(OrgText)
-print(msg)
+
  TweenService:Create(Textbox,TI,{ ["Position"] = UDim2.new(0.5,0,0.5,0)}):Play()
 coroutine.wrap(function()
 TweenService:Create(Textbutton,TI,{ ["Position"] = UDim2.new(0.5,0,0.6,0)}):Play()
