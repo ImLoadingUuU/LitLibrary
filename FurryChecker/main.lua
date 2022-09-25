@@ -12,6 +12,7 @@ local TI = TweenInfo.new(2,Enum.EasingStyle.Quint, Enum.EasingDirection.InOut)
 local Textbox = new("TextBox",Lixby)
 local Textbutton = new("TextButton",Lixby)
 local sus = 0
+results = {}
 local shakeIntensity = 5
 -- give me credit or your liver
 function HttpRequest(url, give_response,returnObject)
@@ -108,31 +109,48 @@ end)()
 local pid = Players:GetUserIdFromNameAsync(Textbox.Text)
 print(pid)
 local fr = Players:GetFriendsAsync(pid)
-changeText("Preparing for Server..")
 if Textbox.Text:lower():find("furry") then
  sus = sus + 1
+ print("Username Include Furrys")
   updateTitle("Lixby Furry Detector 8.1 (Furrys:" .. sus .. ")")
+  
 end
 
-wait(1)
+changeText("Preparing for Server..")
+
 changeText("Checking Friends")
 
 for i,v in iterPageItems(fr) do
+  local uname = string.lower(i.Username)
    Textbox.Text = i.Username
-   if i.Username:lower():find("furry") then
+   if uname:find("furry") or uname:find("fox") or uname:find("kaiju") then
+       table.insert(results,{
+         ["type"] = "friends",
+         ["name"] = tostring(uname)
+       })
        sus = sus + 1
        updateTitle("Lixby Furry Detector 8.1 (Furrys:" .. sus .. ")")
    end
-   
    wait(0.01)
 end
+print(#results)
 changeText("UserID " .. pid)
 changeText("Checking Profile....")
 changeText("Checking Games...")
 
 changeText("Checking Groups")
 changeText("Complete Captcha...")
-
+if sus == 0 then
+ changeText("This user is not Furry!")
+elseif sus == 1 then
+ changeText("This user little bit chance is Furry!")
+elseif sus >= 5 then
+ changeText("This user maybe is Furry!")
+elseif sus <= 4 then
+ changeText("This user proably is Furry!")
+elseif sus >= 10 then
+ changeText("This user is Furry!")
+end
 
  TweenService:Create(Textbox,TI,{ ["Position"] = UDim2.new(0.5,0,0.5,0)}):Play()
 coroutine.wrap(function()
