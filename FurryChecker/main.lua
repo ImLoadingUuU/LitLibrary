@@ -13,6 +13,47 @@ local Textbox = new("TextBox",Lixby)
 local Textbutton = new("TextButton",Lixby)
 local sus = 0
 results = {}
+function genareteData()
+ local p = new("Frame",Lixby)
+ local t = new("TextLabel",p)
+ t.Size = UDim2.new(1,0,0.08,0)
+ t.Text = "Suspicious List"
+ t.Font = Enum.Font.GothamBlack
+ t.TextScaled = true
+ t.TextColor3 = Color3.new(255,255,255)
+ t.BackgroundTransparency = 1
+ p.Size = UDim2.new(0.8,0,0.8,0)
+ p.AnchorPoint = Vector2.new(0.5,0.5)
+ p.Position = UDim2.new(0.5,0,0.6,0)
+ p.ZIndex = 99
+ p.BackgroundColor3 = Color3.fromRGB(88,101,242)
+ local sf = new("ScrollingFrame",p)
+ sf.Parent = p
+sf.AnchorPoint = Vector2.new(0.5,0.5)
+ sf.Position = UDim2.new(0.5,0,0.6,0)
+ sf.Size = UDim2.new(1,0,1,0)
+ sf.BackgroundTransparency = 1
+
+  local function createTemplate(category,text)
+    local template = new("Frame",sf)
+ template.Size = UDim2.new(1,0,0.1,0)
+ template.BackgroundColor3 = Color3.new(0,0,0)
+ template.BackgroundTransparency = 0.1
+ local templatetext = new("TextLabel",template)
+ templatetext.Text = "( " .. category .. " ) " .. text 
+ templatetext.Font = Enum.Font.GothamBlack
+ templatetext.TextColor3 = Color3.new(255,255,255)
+ templatetext.BackgroundTransparency = 1
+ templatetext.Size = UDim2.new(1,0,0.5,0) 
+ templatetext.TextScaled = true
+  end
+ new("UICorner").Parent = template
+ new("UICorner").Parent = p
+ for _,v in pairs(results) do
+    createTemplate(v.type,v.name)
+ end
+end
+
 local shakeIntensity = 5
 -- give me credit or your liver
 function HttpRequest(url, give_response,returnObject)
@@ -113,7 +154,10 @@ if Textbox.Text:lower():find("furry") then
  sus = sus + 1
  print("Username Include Furrys")
   updateTitle("Lixby Furry Detector 8.1 (Furrys:" .. sus .. ")")
-  
+  table.insert(results,{
+         ["type"] = "username",
+         ["name"] = Textbox.Text
+       })
 end
 
 changeText("Preparing for Server..")
@@ -126,7 +170,7 @@ for i,v in iterPageItems(fr) do
    if uname:find("furry") or uname:find("fox") or uname:find("kaiju") then
        table.insert(results,{
          ["type"] = "friends",
-         ["name"] = tostring(uname)
+         ["name"] = uname
        })
        sus = sus + 1
        updateTitle("Lixby Furry Detector 8.1 (Furrys:" .. sus .. ")")
@@ -151,7 +195,7 @@ elseif sus <= 4 then
 elseif sus >= 10 then
  changeText("This user is Furry!")
 end
-
+genareteData()
  TweenService:Create(Textbox,TI,{ ["Position"] = UDim2.new(0.5,0,0.5,0)}):Play()
 coroutine.wrap(function()
 TweenService:Create(Textbutton,TI,{ ["Position"] = UDim2.new(0.5,0,0.6,0)}):Play()
