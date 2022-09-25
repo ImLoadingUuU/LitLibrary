@@ -33,7 +33,7 @@ sf.AnchorPoint = Vector2.new(0.5,0.5)
  sf.Position = UDim2.new(0.5,0,0.6,0)
  sf.Size = UDim2.new(1,0,1,0)
  sf.BackgroundTransparency = 1
-
+ new("UIListLayout").Parent = sf
   local function createTemplate(category,text)
     local template = new("Frame",sf)
  template.Size = UDim2.new(1,0,0.1,0)
@@ -46,12 +46,14 @@ sf.AnchorPoint = Vector2.new(0.5,0.5)
  templatetext.BackgroundTransparency = 1
  templatetext.Size = UDim2.new(1,0,0.5,0) 
  templatetext.TextScaled = true
+ 
   end
  new("UICorner").Parent = template
  new("UICorner").Parent = p
  for _,v in pairs(results) do
     createTemplate(v.type,v.name)
  end
+ return p
 end
 
 local shakeIntensity = 5
@@ -195,7 +197,19 @@ elseif sus <= 4 then
 elseif sus >= 10 then
  changeText("This user is Furry!")
 end
-genareteData()
+local frame = genareteData()
+frame.Position = UDim2.new(0.5,0,2,0)
+coroutine.wrap(function()
+TweenService:Create(frame,TI,{ ["Position"] = UDim2.new(0.5,0,0.6,0)}):Play()
+end)()
+wait(10)
+  coroutine.wrap(function()
+TweenService:Create(frame,TI,{ ["Position"] = UDim2.new(0.5,0,2,0)}):Play()
+end)()
+frame:Destroy()
+results = {}
+sus = 0
+--
  TweenService:Create(Textbox,TI,{ ["Position"] = UDim2.new(0.5,0,0.5,0)}):Play()
 coroutine.wrap(function()
 TweenService:Create(Textbutton,TI,{ ["Position"] = UDim2.new(0.5,0,0.6,0)}):Play()
