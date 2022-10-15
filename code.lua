@@ -29,7 +29,7 @@ function HttpRequest(url, give_response)
     end
 end
 --
- local updateres =  HttpRequest("https://raw.githubusercontent.com/ImLoadingUuU/LitLibrary/main/version.json")
+ local updateres =  HttpGet("https://raw.githubusercontent.com/ImLoadingUuU/LitLibrary/main/version.json")
 if updateres then
     print(updateres)
     local decoded = Http:JSONDecode(updateres)
@@ -87,7 +87,7 @@ Title.TextColor3 = Color3.new(255,255,255)
  local template = "https://www.googleapis.com/customsearch/v1?cx=006414095369450443889:m2aush7jofk&key=%s&q=%s" 
  local url = string.format(template,k.Text,Http:UrlEncode(args))
  print("[Searchoo] [Reqeust] [GET] Sending request to " .. url)
- local res = HttpRequest(url)
+ local res = HttpGet(url)
  print("Decoding")
  local decode = Http:JSONDecode(res)
  print("Proccess")
@@ -160,4 +160,4 @@ k.TextScaled = true
 --[[Font Config]]--
 t.Font = Enum.Font.SourceSans
 k.Font = Enum.Font.SourceSans
-l.Font = Enum.Font.SourceSans
+l.Font = Enum.Font.SourceSansa
